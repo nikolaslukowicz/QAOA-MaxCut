@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "QAOA-MaxCut"
+version = "0.1.0"
+description = "A modular QAOA implementation for MaxCut with classical benchmarking"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "qiskit>=2.0,<3",
+    "qiskit-aer>=0.15",
+    "numpy>=1.26",
+    "scipy>=1.13",
+    "networkx>=3.2",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.9",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

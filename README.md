@@ -15,22 +15,46 @@ The project explores hybrid quantum-classical optimization and compares QAOA res
 
 ## Installation
 
+Clone the repository:
+
 ```bash
 git clone https://github.com/nikolaslukowicz/QAOA-MaxCut.git
 cd QAOA-MaxCut
-pip install qiskit qiskit-aer scipy numpy networkx matplotlib
+```
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+**Windows (PowerShell):**
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+**Linux / macOS:**
+```bash
+source .venv/bin/activate
+```
+
+Install the project and its dependencies:
+
+```bash
+python -m pip install -e .
 ```
 
 ## Usage
 
-Run the main script:
+Run the main script from the project root:
 
 ```bash
 python main.py
 ```
 
-The program optimizes a QAOA circuit for a given graph and evaluates the results against a classical MaxCut solution.
+The program constructs and optimizes a QAOA circuit for a MaxCut instance, simulates its execution, and compares the results against an exact classical solution.
 
+The graph, QAOA circuit depth (`p`), and optimizer settings can be configured in `main.py`.
 ## Future Work
 
 - Benchmark different QAOA circuit depths and classical optimizers
