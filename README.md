@@ -16,8 +16,8 @@ The project explores hybrid quantum-classical optimization and compares QAOA res
 ## Installation
 
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/nikolaslukowicz/QAOA-MaxCut.git
+cd QAOA-MaxCut
 pip install qiskit qiskit-aer scipy numpy networkx matplotlib
 ```
 
