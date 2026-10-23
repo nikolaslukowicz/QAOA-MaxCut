@@ -7,30 +7,32 @@ import matplotlib.pyplot as plt
 from qaoa_maxcut.main import main
 
 
-def benchmark_depths(depths=range(1, 11)):
+import numpy as np
+
+def benchmark_depths(depths=range(1, 11), repetitions=10):
     benchmark_results = []
 
     for p in depths:
-        start = time.perf_counter()
+        probabilities = []
+        runtimes = []
 
-        results = main(p, verbose=False, plot=False)
+        for run in range(repetitions):
+            start = time.perf_counter()
 
-        runtime = time.perf_counter() - start
+            results = main(p, verbose=False, plot=False)
+
+            runtime = time.perf_counter() - start
+
+            probabilities.append(results["optimal_probability"])
+            runtimes.append(runtime)
 
         benchmark_results.append({
             "depth": p,
-            "runtime": runtime,
-            "best_cut": results["best_cut"],
-            "optimal_cut": results["optimal_cut"],
-            "optimal_probability": results["optimal_probability"]
+            "mean_probability": np.mean(probabilities),
+            "std_probability": np.std(probabilities),
+            "mean_runtime": np.mean(runtimes),
+            "std_runtime": np.std(runtimes)
         })
-
-        print(
-            f"p={p:2d} | "
-            f"Time={runtime:.2f}s | "
-            f"Best cut={results['best_cut']} | "
-            f"Optimal probability={results['optimal_probability']:.2%}"
-        )
 
     return benchmark_results
 
@@ -54,25 +56,47 @@ def save_results(results):
 
 def plot_results(results):
     depths = [r["depth"] for r in results]
-    runtimes = [r["runtime"] for r in results]
-    probabilities = [r["optimal_probability"] for r in results]
 
+    mean_runtimes = [r["mean_runtime"] for r in results]
+    std_runtimes = [r["std_runtime"] for r in results]
+
+    mean_probabilities = [r["mean_probability"] for r in results]
+    std_probabilities = [r["std_probability"] for r in results]
+
+    # Runtime
     plt.figure()
-    plt.plot(depths, runtimes, marker="o")
+
+    plt.errorbar(
+        depths,
+        mean_runtimes,
+        yerr=std_runtimes,
+        fmt="o-",
+        capsize=4
+    )
+
     plt.xlabel("QAOA Circuit Depth (p)")
     plt.ylabel("Runtime (seconds)")
     plt.title("QAOA Runtime vs Circuit Depth")
     plt.grid(True)
     plt.show()
 
+    # Solution quality
     plt.figure()
-    plt.plot(depths, probabilities, marker="o")
+
+    plt.errorbar(
+        depths,
+        mean_probabilities,
+        yerr=std_probabilities,
+        fmt="o-",
+        capsize=4
+    )
+
     plt.xlabel("QAOA Circuit Depth (p)")
     plt.ylabel("Optimal Solution Probability")
     plt.title("QAOA Solution Quality vs Circuit Depth")
+    plt.ylim(0, 1.05)
     plt.grid(True)
     plt.show()
-
 
 if __name__ == "__main__":
     results = benchmark_depths()
