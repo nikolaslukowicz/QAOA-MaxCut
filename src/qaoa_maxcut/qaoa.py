@@ -1,7 +1,7 @@
 import numpy as np
 
 from qiskit_aer import AerSimulator
-from evaluation import *
+from .evaluation import *
 
 class QAOAFacade:
 

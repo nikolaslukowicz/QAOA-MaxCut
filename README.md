@@ -19,7 +19,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/nikolaslukowicz/QAOA-MaxCut.git
-cd QAOA-MaxCut
+cd qaoa_maxcut
 ```
 
 Create and activate a virtual environment:

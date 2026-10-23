@@ -1,5 +1,5 @@
-from circuit import *
-from classical import *
+from .circuit import *
+from .classical import *
 
 def objective(params, graph, p, simulator, shots=2000):
     # Split parameter vector
